@@ -22,7 +22,11 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 
 # SSL Section
 mkdir -p ${VVV_PATH_TO_SITE}/ssl
-openssl req -newkey rsa:2048 -x509 -nodes -keyout ssl/${VVV_SITE_NAME}.test.key -new -out ssl/${VVV_SITE_NAME}.test.cert -subj /CN=${VVV_SITE_NAME}.test -reqexts SAN -extensions SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:${VVV_SITE_NAME}.test')) -sha256 -days 3650
+# Install and configure the latest stable version of WordPress
+if [[ ! -f "${VVV_PATH_TO_SITE}/ssl/${VVV_SITE_NAME}.test.key" ]]; then
+  echo "Creating SSL certificates"
+  openssl req -newkey rsa:2048 -x509 -nodes -keyout ssl/${VVV_SITE_NAME}.test.key -new -out ssl/${VVV_SITE_NAME}.test.cert -subj /CN=${VVV_SITE_NAME}.test -reqexts SAN -extensions SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:${VVV_SITE_NAME}.test')) -sha256 -days 3650
+fi
 
 # Install and configure the latest stable version of WordPress
 if [[ ! -f "${VVV_PATH_TO_SITE}/public_html/wp-load.php" ]]; then
