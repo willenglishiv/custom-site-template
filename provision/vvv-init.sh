@@ -23,11 +23,11 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 # SSL Section
 mkdir -p ${VVV_PATH_TO_SITE}/ssl
 # Install and configure the latest stable version of WordPress
-if [[ ! -f "${VVV_PATH_TO_SITE}/ssl/${VVV_SITE_NAME}.test.key" ]]; then
+if [[ ! -f "${VVV_PATH_TO_SITE}/ssl/${DOMAIN}.key" ]]; then
   echo "Creating SSL certificates"
-  cd ssl
+  cd ../ssl
   openssl req -newkey rsa:2048 -x509 -nodes -keyout ${DOMAIN}.key -new -out ${DOMAIN}.cert -subj /CN=${DOMAIN} -reqexts SAN -extensions SAN -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:${DOMAIN}')) -sha256 -days 3650
-  cd ..
+  cd ../provision
 fi
 
 # Install and configure the latest stable version of WordPress
